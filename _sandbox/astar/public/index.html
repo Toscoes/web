@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A*</title>
+    <link rel="stylesheet" href="inventory.css">
+    <link rel="stylesheet" href="dialogue.css">
+    <script src="dialogue.js" type="module" defer></script>
+    <script src="inventory.js" type="module" defer></script>
+    <script src="ninepatch.js" type="module" defer></script>
+    <script src="coroutine.js" type="module" defer></script>
+    <script src="level.js" type="module" defer></script>
+    <script src="tile.js" type="module" defer></script>
+    <script src="app.js" type="module" defer></script>
+    <style>
+
+        @font-face {
+            font-family: "joystix";
+            src: url("/assets/joystix_monospace.ttf");
+        }
+
+        :root {
+            font-family: "joystix";
+            color: white;
+        }
+
+        body {
+            overflow: hidden;
+        }
+
+        canvas {
+            image-rendering: -moz-crisp-edges;
+            image-rendering: -webkit-crisp-edges;
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
+        }
+
+        .background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .body {
+            position: relative;
+        }
+
+        #main-canvas {
+            position: absolute;
+            left: 0;
+            top: 0;
+            background-color: #010101;
+            width: 100vw;
+            height: 100vh;
+
+        }
+    </style>
+</head>
+<body>
+    <canvas id="prerenderer"></canvas>
+    <canvas id="main-canvas"></canvas>
+
+    <div id="inventory">
+        <canvas class="background"></canvas>
+        <div class="body">
+            <div id="equipment">
+                <canvas id="armor"></canvas>
+                <canvas id="weapon"></canvas>
+                <canvas id="ring1"></canvas>
+                <canvas id="ring2"></canvas>
+            </div>
+            <div id="item-slots">
+            </div>
+        </div>
+    </div>
+
+    <div id="item-info">
+        <canvas class="background"></canvas>
+        <div class="body"></div>
+    </div>
+    
+    <div id="dialogue">
+        <canvas class="background"></canvas>
+        <div class="body">
+            <div id="text">
+            </div>
+            <br>
+            <div id="responses">
+            </div>
+            <div id="next">
+                Press E to continue...
+            </div>
+        </div>
+    </div>
+
+    <canvas id="selected-item"></canvas>
+
+    <!--
+    <div class="slot">
+        <canvas class="item"></canvas>
+        <div class="count">1</div>
+    </div>
+    -->
+</body>
+</html>

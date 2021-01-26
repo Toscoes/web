@@ -1,0 +1,10 @@
+exports.GameWidth = 1600
+exports.GameHeight = 1200
+exports.PaddleWidth = 25
+exports.PaddleHeight = 150
+exports.BallSize = 25
+exports.BallStartDx = 5
+exports.BallStartDy = 5
+exports.MaxSpeed = 30
+exports.PaddlePadding = 100
+exports.Epsilon = 0.01

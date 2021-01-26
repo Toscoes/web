@@ -1,0 +1,16 @@
+#monster {
+    background-color: red;
+    width: 256px;
+    height: 256px;
+}
+
+#players {
+    margin-top: 16px;
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+    grid-gap: 4px;
+}
+
+.container {
+    position: relative;
+}

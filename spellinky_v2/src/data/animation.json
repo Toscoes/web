@@ -1,0 +1,77 @@
+{   
+    "character1_idle": {
+        "spritesheet": "player",
+        "x": 0,
+        "y": 0,
+        "width": 16,
+        "height": 16,
+        "rate": 0.1,
+        "count": 4,
+        "hitbox": {
+            
+        }
+    },
+    "character1_run": {
+        "spritesheet": "player",
+        "x": 0,
+        "y": 32,
+        "width": 16,
+        "height": 16,
+        "rate": 0.2,
+        "count": 7
+    },
+    "fungral_idle": {
+        "spritesheet": "monsters_dungeon",
+        "x": 0,
+        "y": 0,
+        "width": 32,
+        "height": 48,
+        "rate": 0.15,
+        "count": 4
+    },
+    "afroshroom_idle": {
+        "spritesheet": "monsters_dungeon",
+        "x": 0,
+        "y": 48,
+        "width": 32,
+        "height": 32,
+        "rate": 0.2,
+        "count": 4
+    },
+    "empty": {
+        "spritesheet": "player",
+        "x": 96,
+        "y": 0,
+        "width": 16,
+        "height": 16,
+        "rate": 0,
+        "count": 1
+    },
+    "leaf": {
+        "spritesheet": "items",
+        "x": 32,
+        "y": 0,
+        "width": 16,
+        "height": 16,
+        "rate": 0,
+        "count": 1
+    },
+    "stick": {
+        "spritesheet": "items",
+        "x": 16,
+        "y": 0,
+        "width": 16,
+        "height": 16,
+        "rate": 0,
+        "count": 1
+    },
+    "arrow": {
+        "spritesheet": "items",
+        "x": 48,
+        "y": 0,
+        "width": 16,
+        "height": 16,
+        "rate": 0,
+        "count": 1
+    }
+}

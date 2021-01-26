@@ -1,0 +1,89 @@
+<title>CSSanbox</title>
+<style>
+
+    .circle {
+        border-radius: 50%;
+    }
+
+    .body {
+        position: absolute;
+    }
+
+    .ring {
+        border: 1px solid gray;
+    }
+
+    #sun {
+        background-color: gold;
+        width: 100px;
+        height: 100px;
+    }
+
+    #earth {
+        top: 500px;
+        left: 500px;
+        width: 35px;
+        height: 35px;
+        background-color: blue;
+        transform-origin: -50px -50px;
+        animation: orbit 10s infinite linear;
+
+    }
+
+    #earth .moon:nth-child(1) {
+        top: 50px;
+        left: 50px;
+        width: 16px;
+        height: 16px;
+        background-color: gray;
+        transform-origin: -32px -32px;
+        animation: orbit 1s infinite linear;
+    }
+
+    #earth .moon:nth-child(2) {
+        top: 50px;
+        left: 50px;
+        width: 8px;
+        height: 8px;
+        background-color: black;
+        transform-origin: -29px -29px;
+        animation: orbit 2s infinite linear;
+    }
+
+    @keyframes orbit {
+        100% {
+            rotate: 1turn;
+        }
+    }
+
+    #circulator {
+        width: 0px;
+        height: 0px;
+    }
+
+    #circulator:after{
+        content: "";
+        display: block;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        background-color: greenyellow;
+    }
+
+    @keyframes circulator-x {
+
+    }
+
+</style>
+
+<div id="sun" class="body circle"></div>
+<div id="earth" class="body circle">
+    <div class="moon body circle"></div>
+    <div class="moon body circle"></div>
+</div>
+
+<div id="circulator"></div>
+
+<script defer>
+
+</script>

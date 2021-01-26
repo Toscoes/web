@@ -1,0 +1,19 @@
+.plate .background {
+    background-color: yellow;
+}
+
+.portrait-contatiner {
+    width: 64px;
+    height: 64px;
+    float: left;
+}
+
+.plate-body {
+    position: relative;
+    float: left;
+}
+
+.plate {
+    position: relative;
+    padding: 16px;
+}

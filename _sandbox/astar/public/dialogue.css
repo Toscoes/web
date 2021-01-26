@@ -1,0 +1,13 @@
+#dialogue {
+    position: absolute;
+    bottom: 100px;
+    left: 400px;
+    max-width: 600px;
+    z-index: 1000;
+    padding: 32px;
+    display: none;
+}
+
+#dialogue .body #responses div {
+    padding: 4px;
+}

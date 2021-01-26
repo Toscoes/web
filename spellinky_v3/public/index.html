@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spellinky</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="card.css">
+    <link rel="stylesheet" href="spells.css">
+    <link rel="stylesheet" href="game.css">
+    <link rel="stylesheet" href="plate.css">
+    <script src="https://cdn.socket.io/socket.io-3.0.0.js"></script>
+    <script src="spells.js" type="module" defer></script>
+    <script src="ninepatch.js" type="module" defer></script>
+    <script src="app.js" type="module" defer></script>
+</head>
+<body>
+    <div id="menu" class="grid display-center hide">
+        <div>
+            <span>Spellinky</span>
+        </div>
+        
+        <div>
+            <label>Name</label>
+            <input type="text" id="name"/>
+        </div>
+
+        <div>
+            <label>Game Code</label>
+            <input type="text" id="game-code"/>
+        </div>
+
+        <button id="play">Play</button>
+
+        <button id="create">Create Game</button>
+    </div>
+
+    <div id="select" class="hide">
+        <div id="player-cards">
+
+        </div>
+    </div>
+
+    <div id="game">
+        <div class="container">
+            <canvas id="monster"></canvas>
+        </div>
+
+        <div class="container">
+            <div id="spells">
+                <canvas class="background"></canvas>
+                <div id="spell-slots">
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div id="players">
+
+                <div class="plate">
+        
+                    <canvas class="background"></canvas>
+        
+                    <div class="plate-body"> 
+        
+                        <div class="portrait-contatiner">
+                            <canvas class="portrait"></canvas>
+                        </div>
+        
+                        <div class="plate-info">
+        
+                            <div class="plate-name">Tosco</div>
+        
+                            <div class="plate-mana">
+                                Mana: 25/30
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="plate">
+        
+                    <canvas class="background"></canvas>
+        
+                    <div class="plate-body"> 
+        
+                        <div class="portrait-contatiner">
+                            <canvas class="portrait"></canvas>
+                        </div>
+        
+                        <div class="plate-info">
+        
+                            <div class="plate-name">Tosco</div>
+        
+                            <div class="plate-mana">
+                                Mana: 25/30
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="plate">
+        
+                    <canvas class="background"></canvas>
+        
+                    <div class="plate-body"> 
+        
+                        <div class="portrait-contatiner">
+                            <canvas class="portrait"></canvas>
+                        </div>
+        
+                        <div class="plate-info">
+        
+                            <div class="plate-name">Tosco</div>
+        
+                            <div class="plate-mana">
+                                Mana: 25/30
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="plate">
+        
+                    <canvas class="background"></canvas>
+        
+                    <div class="plate-body"> 
+        
+                        <div class="portrait-contatiner">
+                            <canvas class="portrait"></canvas>
+                        </div>
+        
+                        <div class="plate-info">
+        
+                            <div class="plate-name">Tosco</div>
+        
+                            <div class="plate-mana">
+                                Mana: 25/30
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="item-info">
+            <canvas class="background"></canvas>
+            <div class="body"></div>
+        </div>
+
+        <canvas id="selected-item"></canvas>   
+    </div>
+
+    <script id="game-player-card" type="markup">
+
+    </script>
+    
+    <script id="card-markup" type="markup">
+        <canvas class="background"></canvas>
+        <div class="body">
+
+            <div class="player-name">
+                Sample Text
+            </div>
+
+            <div class="select">
+                <div class="prev"> < </div>
+                <canvas class="portrait"></canvas>
+                <div class="next"> > </div>
+            </div>
+
+            <div class="character-name">
+                Sample Text
+            </div>
+
+            <div class="character-description">
+                The character description goes here.
+            </div>
+
+            <div class="mana">
+                Mana : 250
+            </div>
+
+            <div class="stats">
+                <div class="label">
+                    Element 1
+                </div>
+                <div class="bar">
+                    <div></div>
+                </div>
+
+                <div class="label">
+                    Element 2
+                </div>
+                <div class="bar">
+                    <div></div>
+                </div>
+
+                <div class="label">
+                    Element 3
+                </div>
+                <div class="bar">
+                    <div></div>
+                </div>
+
+                <div class="label">
+                    Element 4
+                </div>
+                <div class="bar">
+                    <div></div>
+                </div>
+
+                <div class="label">
+                    Element 5
+                </div>
+                <div class="bar">
+                    <div></div>
+                </div>
+            </div>
+
+            <div class="ready">
+                Ready!
+            </div>
+        </div>
+    </script>
+
+</body>
+</html>

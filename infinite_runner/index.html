@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Run</title>
+    <style>
+        :root {
+            color: white;
+        }
+
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: #1F1F1F;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: -webkit-crisp-edges;
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
+        }
+
+        div {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+        }
+    </style>
+    <script src="app.js" defer></script>
+</head>
+<body>
+    <canvas></canvas>
+    <div>Distance <span id="score"></span></div>
+</body>
+</html>

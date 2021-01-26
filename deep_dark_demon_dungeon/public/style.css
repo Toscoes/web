@@ -1,0 +1,51 @@
+@font-face {
+    font-family: "joystix";
+    src: url("/assets/fonts/joystix_monospace.ttf");
+}
+
+:root {
+	font-family: "joystix";
+	color: white;
+}
+
+#display {
+	background-color: #1f1f1f;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	image-rendering: -moz-crisp-edges;
+	image-rendering: -webkit-crisp-edges;
+	image-rendering: pixelated;
+	image-rendering: crisp-edges;
+}
+
+#ui {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	image-rendering: -moz-crisp-edges;
+	image-rendering: -webkit-crisp-edges;
+	image-rendering: pixelated;
+	image-rendering: crisp-edges;
+}
+
+#inventory {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 192;
+	height: 128;
+	border: 1px solid green;
+}
+
+#debug {
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 1000;
+}

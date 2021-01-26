@@ -1,0 +1,19 @@
+{
+  "name": "ddd",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "Tosco",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "socket.io": "^3.0.4"
+  },
+  "engines": {
+    "node": "12.13.X"
+  },
+  "devDependencies": {},
+  "description": ""
+}

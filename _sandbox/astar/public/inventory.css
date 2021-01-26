@@ -1,0 +1,62 @@
+#inventory {
+    position:absolute;
+    top: 100px;
+    left: 250px;
+    z-index: 1000;
+    padding: 32px;
+}
+
+#inventory .body #equipment {
+    float: left;
+    margin-right: 16px;
+    display: grid;
+    grid-template-columns: 64px;
+    grid-template-rows: repeat(4, 64px);
+    grid-gap: 4px;
+}
+
+#inventory .body #item-slots {
+    float: left;
+    display: grid;
+    grid-template-columns: repeat(9, 64px);
+    grid-template-rows: repeat(4, 64px);
+    grid-gap: 4px;
+}
+
+#inventory .body canvas {
+    width: 64px;
+    height: 64px;
+    background-color: #3f2832;
+}
+
+#item-info {
+    position: absolute;
+    z-index: 1001;
+    padding: 16px;
+    border: 4px solid #c0cbdc;
+    background-color: #49334b54;
+    max-width: 400px;
+    display: none;
+}
+
+#selected-item {
+    position: absolute;
+    width: 64px;
+    height: 64px;
+    z-index: 1004;
+}
+
+#slot {
+    position: relative;
+    width: 64px;
+    height: 64px;
+}
+
+.item {
+    position: absolute;
+}
+
+.count {
+    position: relative;
+    margin-left: 4px;
+}

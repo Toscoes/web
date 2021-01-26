@@ -1,0 +1,22 @@
+{
+    "shortsword": {
+        "name": "Shortsword",
+        "type": "weapon",
+        "description": "A simple sword for stabbing.",
+        "stackable": false
+    },
+
+    "chainmail": {
+        "name": "Chainmail",
+        "type": "armor",
+        "description": "Sturdy armor to withstand some bites and scratches.",
+        "stackable": false
+    },
+
+    "potion": {
+        "name": "Potion",
+        "type": "item",
+        "description": "A red liquid that probably heals you when consumed. Probably...",
+        "stackable": false
+    }
+}

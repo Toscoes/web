@@ -1,0 +1,59 @@
+<html>
+	<title>Spellinky</title>
+	<link href="https://fonts.googleapis.com/css?family=Tomorrow&display=swap" rel="stylesheet"> 
+	<link href="/styles/index.css" rel="stylesheet">
+	<link rel="icon" href="favicon.png">
+
+	<script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+	<body>
+
+		<canvas id="display"></canvas>
+		<canvas id="prerender" style="display: none"></canvas>
+		<canvas id="ui"></canvas>
+
+		<div id="ui_container"><!-- ALL UI GOES HERE -->
+
+			<div id="main_menu" class="bg test1">
+				<input id="main_menu_name" type="text" placeholder="Enter Name">
+				<br><br>
+				<input id="main_menu_room" type="text" placeholder="Join by room code">
+				<br>
+				<center><button id="main_menu_connect" class="bg test2">
+					Connect
+				</button></center>
+				<br>
+				<center><button id="main_menu_create" class="bg test2">
+					Create Game
+				</button></center>
+			</div>
+
+			<div id="test_game_state1" class="bg test2 state 1">
+				Game State 1
+			</div>
+
+			<div id="test_game_state2" class="bg test1 state 2">
+				Game State 2
+			</div>
+
+		</div>
+
+		<div id="debug">
+			<span id="debug0" class="debug"></span><br>
+			<span id="debug1" class="debug"></span><br>
+			<span id="debug2" class="debug"></span><br>
+			<span id="debug3" class="debug"></span><br>
+			<span id="debug4" class="debug"></span><br>
+			<span id="debug5" class="debug"></span><br>
+			<span id="debug6" class="debug"></span><br>
+			<span id="debug7" class="debug"></span><br>
+			<span id="debug8" class="debug"></span><br>
+			<span id="debug9" class="debug"></span><br>
+		</div>
+
+		<div id="textOnHover"></div>
+
+		<script type="module" src="./client/cache.js"></script>
+		<script type="module" src="./client/event.js"></script>
+		<script type="module" src="./client/client.js"></script>
+	</body>
+</html>

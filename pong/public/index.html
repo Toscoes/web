@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pong</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.socket.io/socket.io-3.0.0.js"></script>
+    <script src="app.js" type="module" defer></script>
+</head>
+<body>
+    <div id="menu" class="grid display-center">
+        <div>
+            <span>Pong</span>
+        </div>
+        
+        <div>
+            <label>Game Code</label>
+            <input type="text" id="game-code"/>
+        </div>
+
+        <div>
+            <label>Name</label>
+            <input type="text" id="name"/>
+        </div>
+
+        <button id="play">Play</button>
+
+        <button id="create">Create Game</button>
+    </div>
+
+    <div id="game" class="hide">
+        <canvas></canvas>
+        <span style="color: white" id="display-game-code"></span>
+    </div>
+    
+</body>
+</html>

@@ -1,0 +1,60 @@
+.player-card {
+    position: relative;
+    margin: 16px;
+    padding: 16px;
+    flex-grow: 1;
+    color: white;
+}
+
+.player-name, .character-name{
+    font-size: 2rem;
+    text-align: center;
+}
+
+.background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.select {
+    display: grid;
+    grid-template-columns: auto 256px auto;
+    grid-template-rows: 256px;
+}
+
+.select div {
+    place-self: center;
+}
+
+.portrait {
+    width: 100%;
+    height: 100%;
+    background-color:#3f2832;
+}
+
+.body {
+    position: relative;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-template-rows: auto auto auto auto auto;
+    grid-row-gap: 4px;
+    align-items: stretch;
+}
+
+.bar {
+    height: 8px;
+    background-color: #3f2832;
+}
+
+.bar div {
+    align-self: center;
+    height: 100%;
+    width: 80%;
+    background-color: white;
+}

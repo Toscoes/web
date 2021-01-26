@@ -1,0 +1,31 @@
+:root {
+    font-size:20px;
+}
+
+.display-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: min-content;
+    justify-content: center;
+    gap: 1rem;
+}
+
+canvas {
+    position: absolute;
+    top:0;
+    left:0;
+    width:100vw;
+    height:100vh;
+    background-color: #1f1f1f;
+    z-index: -1
+}
+
+.hide {
+    display: none
+}

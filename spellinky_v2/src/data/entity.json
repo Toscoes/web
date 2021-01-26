@@ -1,0 +1,79 @@
+{
+    "player": {
+        "type": 2,
+        "default_animation": "character1_idle",
+        "hitbox": {
+            "x": 3,
+            "y": 5,
+            "width": 9,
+            "height": 11
+        },
+        "speed": 2
+    },
+    "empty": {
+        "type": 0,
+        "default_animation": "empty",
+        "hitbox": {
+            "x": 0,
+            "y": 0,
+            "width": 16,
+            "height": 16
+        },
+        "speed": 0
+    },
+    "fungral": {
+        "type": 2,
+        "default_animation": "fungral_idle",
+        "hitbox": {
+            "x": 6,
+            "y": 20,
+            "width": 19,
+            "height": 28
+        },
+        "speed": 0
+    },
+    "afroshroom": {
+        "type": 2,
+        "default_animation": "afroshroom_idle",
+        "hitbox": {
+            "x": 8,
+            "y": 16,
+            "width": 16,
+            "height": 16
+        },
+        "speed": 0
+    },
+    "leaf": {
+        "type": 2,
+        "default_animation": "leaf",
+        "hitbox": {
+            "x": 0,
+            "y": 0,
+            "width": 16,
+            "height": 16
+        },
+        "speed": 0
+    },
+    "stick": {
+        "type": 2,
+        "default_animation": "stick",
+        "hitbox": {
+            "x": 0,
+            "y": 0,
+            "width": 16,
+            "height": 16
+        },
+        "speed": 0
+    },
+    "arrow": {
+        "type": 2,
+        "default_animation": "arrow",
+        "hitbox": {
+            "x": 11,
+            "y": 7,
+            "width": 3,
+            "height": 3
+        },
+        "speed": 0
+    }
+}

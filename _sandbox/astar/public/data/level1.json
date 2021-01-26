@@ -1,0 +1,63 @@
+{
+    "tiles": {
+        "Floor": {
+            "sprite": "floor",
+            "type": 2,
+            "cost": 1,
+            "transparent": true,
+            "navigatable": true
+        },
+        "Wall": {
+            "sprite": "wall",
+            "type": 1,
+            "cost": 0,
+            "transparent": false,
+            "navigatable": false
+        },
+        "Start": {
+            "sprite": "start",
+            "type": 4,
+            "cost": 0,
+            "transparent": true,
+            "navigatable": true
+        },
+        "Exit": {
+            "sprite": "exit",
+            "type": 5,
+            "cost": 0,
+            "transparent": true,
+            "navigatable": true
+        }
+    },
+
+    "sprites": {
+        "floor": {
+            "spritesheet": "tileset1.png",
+            "x": 16,
+            "y": 0,
+            "width": 16,
+            "height": 16
+        },
+        "wall": {
+            "spritesheet": "tileset1.png",
+            "x": 0,
+            "y": 0,
+            "width": 16,
+            "height": 16
+        },
+        "start": {
+            "spritesheet": "tileset1.png",
+            "x": 0,
+            "y": 16,
+            "width": 16,
+            "height": 16
+        }, 
+        "exit": {
+            "spritesheet": "tileset1.png",
+            "x": 16,
+            "y": 16,
+            "width": 16,
+            "height": 16
+        }
+    }
+}

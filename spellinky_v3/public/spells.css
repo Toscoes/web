@@ -1,0 +1,42 @@
+#spells {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%,0);
+    padding: 16px;
+}
+
+#spells #spell-slots {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(7, 64px);
+    grid-gap: 4px;
+}
+
+#spells #spell-slots canvas {
+    width: 64px;
+    height: 64px;
+    background-color: #3f2832;
+}
+
+#item-info {
+    position: absolute;
+    z-index: 1001;
+    padding: 16px;
+    border: 4px solid #c0cbdc;
+    background-color: #49334b54;
+    max-width: 400px;
+    display: none;
+}
+
+#selected-item {
+    position: absolute;
+    width: 64px;
+    height: 64px;
+    z-index: 1004;
+    display: none;
+}
+
+.item {
+    position: absolute;
+}

@@ -1,0 +1,29 @@
+<html>
+	<title>Deep Dark Demon Dungeon</title>
+	<link href="https://fonts.googleapis.com/css?family=Tomorrow&display=swap" rel="stylesheet"> 
+	<link href="style.css" rel="stylesheet">
+	<link rel="icon" href="favicon.png">
+
+	<script src="https://cdn.socket.io/socket.io-3.0.0.js"></script>
+	<script type="module" src="./utils.js" defer></script>
+	<script type="module" src="./cache.js" defer></script>
+	<script type="module" src="./view.js" defer></script>
+	<script type="module" src="./app.js" defer></script>
+	<body>
+		<canvas id="prerender" style="display: none"></canvas>
+		<canvas id="display"></canvas>
+		<canvas id="ui"></canvas>
+
+		<div id="debug">
+			<div id="debug1" style="color:white"></div>
+			<div id="debug2" style="color:white"></div>
+			<div id="debug3" style="color:white"></div>
+			<div id="debug4" style="color:white"></div>
+			<div id="debug5" style="color:white"></div>
+		</div>
+
+		<div id="inventory">
+
+		</div>
+	</body>
+</html>

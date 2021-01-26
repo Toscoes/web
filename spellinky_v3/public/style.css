@@ -1,0 +1,66 @@
+:root {
+    font-size:20px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none; 
+    user-select: none;
+}
+
+.display-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+canvas {
+    image-rendering: -moz-crisp-edges;
+	image-rendering: -webkit-crisp-edges;
+	image-rendering: pixelated;
+    image-rendering: crisp-edges;
+}
+
+#main-canvas {
+    position: absolute;
+    top:0;
+    left:0;
+    width:100vw;
+    height:100vh;
+    background-color: #1f1f1f;
+    z-index: -1;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: min-content;
+    justify-content: center;
+    gap: 1rem;
+}
+
+#player-cards {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: grid;
+    grid-template-columns: 25% 25% 25% 25%;
+    align-items: stretch;
+}
+
+@media (max-width: 1290px) {
+    #player-cards {
+        position: relative;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        display: grid;
+        grid-template-columns: auto auto;
+        align-items: stretch;
+    }
+}
+
+.hide {
+    display: none
+}

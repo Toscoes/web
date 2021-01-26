@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Images 4 Sus 2</title>
+		
+		<link href="https://fonts.googleapis.com/css?family=Comfortaa&display=swap" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="default.css">
+		
+		<script>
+		function openPanel(panelId) {
+			document.getElementById("Panel_Background").style.display = "block";
+			document.getElementById(panelId).style.display = "block";
+		}
+
+		function closePanel(panelId) {
+			document.getElementById("Panel_Background").style.display = "none";
+			document.getElementById(panelId).style.display = "none";
+		}
+		</script>
+		
+	</head>
+	<body>
+		<div id="header">
+			<a href="index.html"><div id="title" class="header-item">Images 4 Sus 2</div></a>
+			<?php			
+				include_once('user.php'); 
+				displayUserControls();
+			?>
+		</div>
+		
+		<?php			
+			include_once('user.php'); 
+			displayNotifications();
+			
+			include_once('load_post.php');
+		?>
+		
+		<div id="Panel_Background"></div>
+		
+		<div id="Login_Panel" class="panel">
+			<div class="panel-header">
+				<div class="panel-header-item">Login</div>
+				<div class="panel-header-item float-right" onclick="closePanel('Login_Panel')">&#x2715</div>
+			</div>
+			<div class="panel-body">
+				<form action="login.php" method="post" enctype="multipart/form-data">
+					<div>Username:</div> 
+					<input type="text" name="username" required /><br>
+					<br>
+					<div>Password:</div> 
+					<input name="password" type="password" required /><br>
+					<br>
+					<button type="submit" class="float-right">Log in</button>
+				</form>
+			</div>
+		</div>
+		
+		<div id="CreateAccount_Panel" class="panel">
+			<div class="panel-header">
+				<div class="panel-header-item">Create Account</div>
+				<div class="panel-header-item float-right" onclick="closePanel('CreateAccount_Panel')">&#x2715</div>
+			</div>
+			<div class="panel-body">
+				<form action="create_account.php" method="post" enctype="multipart/form-data">
+					<div>Email</div>
+					<input type="text" name="email" required /><br>
+					<br>
+					<div>Username </div> 
+					<input type="text" name="username" required /><br>
+					<br>
+					<div>Password </div> 
+					<input type="password" name="password" required /><br>
+					<br>
+					<div>Confirm Password </div> 
+					<input type="password" name="confirm_password" required /><br>
+					<br>
+					<span class="date">Disclaimer: Do not use your standard password as this place is as secure as a water bottle on the street in California.</span><br>
+					<button type="submit" class="float-right">Create Account</button>
+				</form>
+			</div>
+		</div>
+		
+		<div id="Upload_Panel" class="panel">
+			<div class="panel-header">
+				<div class="panel-header-item">Upload Image</div>
+				<div class="panel-header-item float-right" onclick="closePanel('Upload_Panel')">&#x2715</div>
+			</div>
+			<div class="panel-body">
+				<form action="upload_image.php" method="post" enctype="multipart/form-data">
+					<div>Select image to upload</div>
+					<input type="file" name="image" required /><br>
+					<br>
+					<div>Description</div> 
+					<textarea rows="4" name="description" placeholder="Describe the image..."></textarea><br>
+					<br>
+					<button type="submit" class="float-right">Upload</button>
+				</form>
+			</div>
+		</div>
+		
+	</body>
+</html>

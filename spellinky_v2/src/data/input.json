@@ -1,0 +1,11 @@
+{
+    "W": 87,
+    "A": 65,
+    "S": 83,
+    "D": 68,
+    "LeftArrow": 37,
+    "UpArrow": 38,
+    "RightArrow": 39,
+    "DownArrow": 40,
+    "Spacebar": 32
+}

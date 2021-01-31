@@ -27,29 +27,45 @@ io.on("connection", (socket) => {
         let game = new Game(gameID)
         Games[gameID] = game
 
-        let player = game.addPlayer(data.playerName)
+        let player = game.addPlayer(socket.id, data.playerName)
         Players[socket.id] = player
 
-        game.start()
+        game.setHost(socket.id)
 
         socket.join(gameID)
 
-        socket.emit("join-success", {gameId: gameID})
+        socket.emit("join-success", {gameId: gameID, hostId: game.hostId})
     }) 
 
     socket.on("play", data => {
         let game = Games[data.gameId]
         if (game) {
-            let player = game.addPlayer(data.playerName)
+            let player = game.addPlayer(socket.id, data.playerName)
             Players[socket.id] = player
             socket.join(data.gameId)
-            socket.emit("join-success", {gameId: gameID})
+            socket.emit("join-success", {gameId: data.gameId, hostId: game.hostId})
+            io.to(game.id).emit("host-update", {hostId: game.hostId})
+        } else {
+            socket.emit("join-fail")
         }
         
     })
 
     socket.on("disconnect", data => {
 
+        let player = Players[socket.id]
+        if (player) {
+            let game = Games[player.gameId]
+            game.removePlayer(player.id)
+            
+            delete Players[socket.id]
+
+            if (!game.active) {
+                delete Games[game.id]
+            } else {
+                io.to(game.id).emit("host-update", {hostId: game.hostId})
+            }
+        }
     })
 
     socket.on("keyheld", keys => {
@@ -66,12 +82,26 @@ io.on("connection", (socket) => {
         }
     })
 
+    socket.on("start", data => {
+        let game = Games[data.gameId]
+        if (game) {
+            game.start()
+        }
+    })
+
 })
 
 function update() {
     
     for (let gameID in Games) {
         const game = Games[gameID]
+
+        if(game.stateChanged) {
+
+            io.to(gameID).emit(game.onStateChangeClient, game.data)
+            game.stateChanged = false
+
+        }
 
         game.update()
 

@@ -1,0 +1,371 @@
+<title>Solar System</title>
+
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono&display=swap" rel="stylesheet"> 
+<style>
+
+    :root {
+
+        font-family: 'Space Mono', monospace;
+        color: white;
+
+        --sun-size: 75px;
+
+        --mercury-size: 4px;
+        --mercury-offset: -15px;
+        --mercury-period: 2.4084s;
+
+        --venus-size: 8px;
+        --venus-offset: -40px;
+        --venus-period: 6.1517s;
+
+        --earth-size: 10px;
+        --earth-offset: -80px;
+        --earth-period: 10s;
+
+        --moon-size: 2px;
+        --moon-offset: -5px;
+        --moon-period: 0.74796s;
+
+        --mars-size: 10px;
+        --mars-offset: -110px;
+        --mars-period: 18.8s;
+
+        --jupiter-size: 23px;
+        --jupiter-offset: -150px;
+        --jupiter-period: 118.6s;
+
+        --saturn-size: 18px;
+        --saturn-offset: -200px;
+        --saturn-period: 29.46s;
+
+        --uranus-size: 9px;
+        --uranus-offset: -250px;
+        --uranus-period: 840.1s;
+
+        --neptune-size: 8px;
+        --neptune-offset: -280px;
+        --neptune-period: 1647.9s;
+
+    }
+
+    .circle {
+        border-radius: 50%;
+    }
+
+    .body {
+        position: absolute;
+    }
+
+    body {
+        background-color:#0a0a0f;
+        overflow: hidden;
+    }
+
+    #system {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color:cornflowerblue;
+    }
+
+    #sun {
+        width: var(--sun-size);
+        height: var(--sun-size);
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        box-shadow: 0px 0px 184px 90px rgba(242,245,145,0.75);
+        -webkit-box-shadow: 0px 0px 184px 90px rgba(242,245,145,0.75);
+        -moz-box-shadow: 0px 0px 184px 90px rgba(242,245,145,0.75);
+        background: rgb(255,214,118);
+        background: radial-gradient(circle, rgba(255,214,118,1) 0%, rgba(255,248,0,1) 100%); 
+    }
+
+    #mercury.body {
+        top: var(--mercury-offset);
+        left: var(--mercury-offset);
+        width: var(--mercury-size);
+        height: var(--mercury-size);
+        transform-origin: calc( (var(--sun-size) / 2) + (var(--mercury-size) / 2) + ( var(--mercury-offset) * -1)) calc( (var(--sun-size) / 2) + (var(--mercury-size) / 2) + ( var(--mercury-offset) * -1));
+        animation: orbit var(--mercury-period) infinite linear;
+        background: rgb(158,158,158);
+background: linear-gradient(322deg, rgba(158,158,158,1) 15%, rgba(131,131,131,1) 99%);
+        
+    }
+
+    #venus.body {
+        top: var(--venus-offset);
+        left: var(--venus-offset);
+        width: var(--venus-size);
+        height: var(--venus-size);
+        transform-origin: calc( (var(--sun-size) / 2) + (var(--venus-size) / 2) + ( var(--venus-offset) * -1)) calc( (var(--sun-size) / 2) + (var(--venus-size) / 2) + ( var(--venus-offset) * -1));
+        animation: orbit var(--venus-period) infinite linear;
+        background: rgb(235,235,235);
+background: linear-gradient(115deg, rgba(235,235,235,1) 1%, rgba(255,245,200,1) 35%, rgba(214,208,181,1) 59%, rgba(191,191,191,1) 99%);
+    }
+
+    #earth.body {
+        top: var(--earth-offset);
+        left: var(--earth-offset);
+        width: var(--earth-size);
+        height: var(--earth-size);
+        transform-origin: calc( (var(--sun-size) / 2) + (var(--earth-size) / 2) + ( var(--earth-offset) * -1)) calc( (var(--sun-size) / 2) + (var(--earth-size) / 2) + ( var(--earth-offset) * -1));
+        animation: orbit var(--earth-period) infinite linear;
+        background: rgb(235,255,251);
+background: linear-gradient(322deg, rgba(235,255,251,1) 2%, rgba(46,105,170,1) 24%, rgba(70,150,79,1) 27%, rgba(61,107,218,1) 38%, rgba(59,102,199,1) 58%, rgba(54,131,27,1) 66%, rgba(54,103,205,1) 72%, rgba(225,251,247,1) 99%);
+    }
+
+    #earth.body > .moon {
+        top: var(--moon-offset);
+        left: var(--moon-offset);
+        width: var(--moon-size);
+        height: var(--moon-size);
+        transform-origin: calc( (var(--earth-size) / 2) + (var(--moon-size) / 2) + ( var(--moon-offset) * -1)) calc( (var(--earth-size) / 2) + (var(--moon-size) / 2) + ( var(--moon-offset) * -1));
+        animation: orbit var(--moon-period) infinite linear;
+        background: rgb(99,107,125);
+background: linear-gradient(322deg, rgba(99,107,125,1) 15%, rgba(237,237,237,1) 99%);
+    }
+
+    #mars.body {
+        top: var(--mars-offset);
+        left: var(--mars-offset);
+        width: var(--mars-size);
+        height: var(--mars-size);
+        transform-origin: calc( (var(--sun-size) / 2) + (var(--mars-size) / 2) + ( var(--mars-offset) * -1)) calc( (var(--sun-size) / 2) + (var(--mars-size) / 2) + ( var(--mars-offset) * -1));
+        animation: orbit var(--mars-period) infinite linear;
+        background: rgb(235,255,251);
+background: linear-gradient(0deg, rgba(235,255,251,1) 6%, rgba(214,105,61,1) 26%, rgba(224,147,92,1) 49%, rgba(209,143,113,1) 73%, rgba(225,251,247,1) 90%);
+    }
+
+    #jupiter.body {
+        top: var(--jupiter-offset);
+        left: var(--jupiter-offset);
+        width: var(--jupiter-size);
+        height: var(--jupiter-size);
+        transform-origin: calc( (var(--sun-size) / 2) + (var(--jupiter-size) / 2) + ( var(--jupiter-offset) * -1)) calc( (var(--sun-size) / 2) + (var(--jupiter-size) / 2) + ( var(--jupiter-offset) * -1));
+        animation: orbit var(--jupiter-period) infinite linear;
+        background: rgb(152,109,80);
+background: linear-gradient(0deg, rgba(152,109,80,1) 15%, rgba(136,118,92,1) 36%, rgba(201,182,144,1) 68%, rgba(255,200,164,1) 87%);
+    }
+
+    #saturn.body {
+        top: var(--saturn-offset);
+        left: var(--saturn-offset);
+        width: var(--saturn-size);
+        height: var(--saturn-size);
+        transform-origin: calc( (var(--sun-size) / 2) + (var(--saturn-size) / 2) + ( var(--saturn-offset) * -1)) calc( (var(--sun-size) / 2) + (var(--saturn-size) / 2) + ( var(--saturn-offset) * -1));
+        animation: orbit var(--saturn-period) infinite linear;
+        background: rgb(153,152,137);
+background: linear-gradient(0deg, rgba(153,152,137,1) 12%, rgba(167,161,103,1) 44%, rgba(209,177,113,1) 68%, rgba(212,207,181,1) 87%);
+
+    }
+
+    #uranus.body {
+        top: var(--uranus-offset);
+        left: var(--uranus-offset);
+        width: var(--uranus-size);
+        height: var(--uranus-size);
+        transform-origin: calc( (var(--sun-size) / 2) + (var(--uranus-size) / 2) + ( var(--uranus-offset) * -1)) calc( (var(--sun-size) / 2) + (var(--uranus-size) / 2) + ( var(--uranus-offset) * -1));
+        animation: orbit var(--uranus-period) infinite linear;
+        background: rgb(124,177,255);
+        background: linear-gradient(22deg, rgba(124,177,255,1) 0%, rgba(164,215,255,1) 100%);
+    }
+
+    #neptune.body {
+        top: var(--neptune-offset);
+        left: var(--neptune-offset);
+        width: var(--neptune-size);
+        height: var(--neptune-size);
+        transform-origin: calc( (var(--sun-size) / 2) + (var(--neptune-size) / 2) + ( var(--neptune-offset) * -1)) calc( (var(--sun-size) / 2) + (var(--neptune-size) / 2) + ( var(--neptune-offset) * -1));
+        animation: orbit var(--neptune-period) infinite linear;
+        background: rgb(0,69,171);
+        background: linear-gradient(22deg, rgba(0,69,171,1) 0%, rgba(164,215,255,1) 100%);
+    }
+
+    .description {
+        position: relative;
+        visibility:hidden;
+        top: 10px;
+        left: 50px;
+        min-width: 200px;
+        transform-origin: 0%;
+    }
+
+    #mercury.body > .description {
+        animation: anti-orbit var(--mercury-period) infinite linear;
+    }    
+    
+    #venus.body > .description {
+        animation: anti-orbit var(--venus-period) infinite linear;
+    }
+
+    #earth.body > .description {
+        animation: anti-orbit var(--earth-period) infinite linear;
+    }
+
+
+    #mars.body > .description {
+        animation: anti-orbit var(--mars-period) infinite linear;
+    }
+
+    #jupiter.body > .description {
+        animation: anti-orbit var(--jupiter-period) infinite linear;
+    }
+
+    #saturn.body > .description {
+        animation: anti-orbit var(--saturn-period) infinite linear;
+    }
+
+    #uranus.body > .description {
+        animation: anti-orbit var(--uranus-period) infinite linear;
+    }
+
+    #neptune.body > .description {
+        animation: anti-orbit var(--neptune-period) infinite linear;
+    }
+
+    @keyframes anti-orbit {
+        100% {
+            rotate: -1turn;
+        }
+    }
+
+    @keyframes orbit {
+        100% {
+            rotate: 1turn;
+        }
+    }
+
+    #mercury.card:hover ~ #system #mercury.body {
+        border: 2px solid white;
+    }
+
+    #mercury.card:hover ~ #system #mercury.body div {
+        visibility:visible;
+    }
+
+    #venus.card:hover ~ #system #venus.body {
+        border: 2px solid white;
+    }
+
+    #venus.card:hover ~ #system #venus.body div {
+        visibility:visible;
+    }
+
+    #earth.card:hover ~ #system #earth.body {
+        border: 2px solid white;
+    }
+
+    #earth.card:hover ~ #system #earth.body > .description {
+        visibility:visible;
+    }
+
+    #mars.card:hover ~ #system #mars.body {
+        border: 2px solid white;
+    }
+
+    #mars.card:hover ~ #system #mars.body div {
+        visibility:visible;
+    }
+
+    #jupiter.card:hover ~ #system #jupiter.body {
+        border: 2px solid white;
+    }
+
+    #jupiter.card:hover ~ #system #jupiter.body div {
+        visibility:visible;
+    }
+
+    #saturn.card:hover ~ #system #saturn.body {
+        border: 2px solid white;
+    }
+
+    #saturn.card:hover ~ #system #saturn.body div {
+        visibility:visible;
+    }
+    
+    #uranus.card:hover ~ #system #uranus.body {
+        border: 2px solid white;
+    }
+
+    #uranus.card:hover ~ #system #uranus.body div {
+        visibility:visible;
+    }
+    
+    #neptune.card:hover ~ #system #neptune.body {
+        border: 2px solid white;
+    }
+
+    #neptune.card:hover ~ #system #neptune.body div {
+        visibility:visible;
+    }
+
+    .card, .description {
+        width: 100px;
+        background-color: rgba(0, 0, 99, 0.38);
+        border: 5px solid rgb(0, 0, 99);
+        padding: 10px;
+        margin-top: 5px;
+        transition: width 1s ease;
+    }
+
+    .text-large {
+        font-size: 24px;
+    }
+
+    #ring {
+        top: -2.5px;
+        left: -2.5px;
+        width: 20px;
+        height: 20px;
+        transform: skew(15deg, 38deg);
+        border-bottom: 3px solid #bfb78f;
+        border-left: 3px solid #bfb78f;
+    }
+
+</style>
+
+<div id="mercury" class="card text-large">Mercury</div>
+<div id="venus" class="card text-large">Venus</div>
+<div id="earth" class="card text-large">Earth</div>
+<div id="mars" class="card text-large">Mars</div>
+<div id="jupiter" class="card text-large">Jupiter</div>
+<div id="saturn" class="card text-large">Saturn</div>
+<div id="uranus" class="card text-large">Uranus</div>
+<div id="neptune" class="card text-large">Neptune</div>
+
+<div id="system" class="body">
+
+    <div id="sun" class="body circle">
+        <div id="mercury" class="body circle">
+            <div class="description">This is Mercury - the fastest in the system!</div>
+        </div>
+        <div id="venus" class="body circle">
+            <div class="description">This is Venus.</div>
+        </div>
+        <div id="earth" class="body circle">
+            <div class="description">This is Earth. We live here!</div>
+            <div class="moon body circle">
+                <div class="description">This is mercury. The fastest planet in the system!</div>
+            </div>
+        </div>
+        <div id="mars" class="body circle">
+            <div class="description">This is Mars.</div>
+        </div>
+        <div id="jupiter" class="body circle">
+            <div class="description">This is Jupiter.</div>
+        </div>
+        <div id="saturn" class="body circle">
+            <div class="description">This is Saturn.</div>
+            <div id="ring" class="body circle"></div>
+        </div>
+        <div id="uranus" class="body circle">
+            <div class="description">This is Uranus. Stop giggling.</div>
+        </div>
+        <div id="neptune" class="body circle">
+            <div class="description">This is Neptune</div>
+        </div>
+    </div>
+</div>

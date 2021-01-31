@@ -8,3 +8,6 @@ exports.BallStartDy = 5
 exports.MaxSpeed = 30
 exports.PaddlePadding = 100
 exports.Epsilon = 0.01
+exports.LoadTime = 150
+exports.WinnerDisplayTime = 100
+exports.GamePoint = 1

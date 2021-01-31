@@ -1,4 +1,5 @@
 // imports
+import Coroutine from "./coroutine.js"
 
 // input
 const gameCode = document.getElementById("game-code")
@@ -18,37 +19,55 @@ const context = canvas.getContext("2d")
 
 // other
 const displayGameCode = document.getElementById("display-game-code")
+const start = document.getElementById("start")
+const waitingHost = document.getElementById("waiting-host")
+const winner = document.getElementById("winner")
+
+const player1Name = document.querySelector("#player1 > .name")
+const player1Score = document.querySelector("#player1 > .score")
+const player2Name = document.querySelector("#player2 > .name")
+const player2Score = document.querySelector("#player2 > .score")
 
 const socket = io()
 
 let GameData = null
 
 function update() {
-
+    Coroutine.step()
 }
 
 function draw(time) {
     
     context.fillStyle="white"
 
-    if (GameData.players.player1) {
-        const player1Paddle1 = GameData.players.player1.paddle1
-        const player1Paddle2 = GameData.players.player1.paddle2
+    const player1 = GameData.players.player1
+    const player2 = GameData.players.player2
+    const ball = GameData.ball
+
+    if (player1) {
+        const player1Paddle1 = player1.paddle1
+        const player1Paddle2 = player1.paddle2
         context.fillRect(player1Paddle1.x, player1Paddle1.y, player1Paddle1.width, player1Paddle1.height)
         context.fillRect(player1Paddle2.x, player1Paddle2.y, player1Paddle2.width, player1Paddle2.height)
     }
 
-    if (GameData.players.player2) {
-        const player2Paddle1 = GameData.players.player2.paddle1
-        const player2Paddle2 = GameData.players.player2.paddle2
+    if (player2) {
+        const player2Paddle1 = player2.paddle1
+        const player2Paddle2 = player2.paddle2
         context.fillRect(player2Paddle1.x, player2Paddle1.y, player2Paddle1.width, player2Paddle1.height)
         context.fillRect(player2Paddle2.x, player2Paddle2.y, player2Paddle2.width, player2Paddle2.height)
     }
 
-    if (GameData.ball) {
-        const ball = GameData.ball
+    if (ball) {
         context.fillRect(ball.x, ball.y, ball.size, ball.size)
     }
+
+    player1Name.innerText = player1? player1.name : "Waiting for player..."
+    player1Score.innerText = player1? GameData.scorePlayer1 : ""
+    player2Name.innerText = player2? player2.name : "Waiting for player..."
+    player2Score.innerText = player2? GameData.scorePlayer2 : ""
+
+
 }
 
 
@@ -56,7 +75,6 @@ function main(time) {
     context.clearRect(0,0,canvas.width,canvas.height)
     update()
     draw()
-    //requestAnimationFrame(main)
 }
 
 // ======= listeners ======= //
@@ -71,8 +89,35 @@ play.addEventListener("click", event => {
 })
 
 // ======= socket listeners ======= //
-socket.on("play", data => {
 
+socket.on("state-waiting", data => {
+    winner.style.display = "initial"
+    winner.innerText = ""
+    if (GameData.hostId == socket.id) {
+        start.style.display = "initial"
+    } else {
+        waitingHost.style.display = "initial"
+    }
+})
+
+socket.on("state-displaymessage", data => {
+    winner.style.display = "initial"
+    let messenger = function* (msg) {
+        let part = ""
+        let i = 0
+        while (part != msg) {
+            part += msg[i]
+            winner.innerText = part
+            yield i++
+        }
+    }
+    let generator = messenger(data.message)
+    Coroutine.start(generator)
+})
+
+socket.on("state-loading", data => {
+    start.style.display = "none"
+    waitingHost.style.display = "none"
 })
 
 socket.on("update", data => {
@@ -83,6 +128,26 @@ socket.on("update", data => {
 socket.on("join-success", data => {
     displayGameCode.innerText = "Game Code: " + data.gameId
     setScene("game")
+})
+
+socket.on("join-fail", () => {
+    alert("This game does not exist!")
+})
+
+socket.on("host-update", data => {
+    if (data.hostId == socket.id) {
+        waitingHost.style.display = "none"
+        start.style.display = "initial"
+        start.querySelector("button").onclick = event => {
+            if (GameData.players.player1 && GameData.players.player2) {
+                socket.emit("start", {gameId: GameData.id})
+            } else {
+                alert("Not enough players!")
+            }
+        }
+    } else {
+        waitingHost.style.display = "initial"
+    }
 })
 
 // input handlers

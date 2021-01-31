@@ -4,8 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pong</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono&display=swap" rel="stylesheet"> 
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.socket.io/socket.io-3.0.0.js"></script>
+    <script src="coroutine.js" type="module"></script>
     <script src="app.js" type="module" defer></script>
 </head>
 <body>
@@ -30,8 +33,32 @@
     </div>
 
     <div id="game" class="hide">
+
+        <div id="player1" class="info">
+            <span class="name"></span>
+            <br>
+            <span class="score"></span>
+        </div>
+        <div id="player2" class="info">
+            <span class="name"></span>
+            <br>
+            <span class="score"></span>
+        </div>
+
         <canvas></canvas>
         <span style="color: white" id="display-game-code"></span>
+        <div id="messages" class="center">
+            <div id="start" class="hide">
+                You are the host.
+                <br>
+                <button id="btn-start">Start!</button>
+            </div>
+            <div id="waiting-host" class="hide">
+                Waiting for host...
+            </div>
+            <div id="winner" class="hide">
+            </div>
+        </div>
     </div>
     
 </body>

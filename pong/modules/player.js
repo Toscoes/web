@@ -1,20 +1,23 @@
 const Global = require("./GlobalVars")
 
 module.exports = class Player {
-    constructor(name, role) {
+    constructor(id, name, role, gameId) {
+        this.id = id
         this.name = name
         this.role = role
+        this.gameId = gameId
+        this.dashPower = 150
         
         if (role != "spectator") {
             this.paddle1 = {
                 x: role == "player2"? Global.GameWidth - Global.PaddleWidth - Global.PaddlePadding : Global.PaddlePadding,
-                y: 0,
+                y: (Global.GameHeight - Global.PaddleHeight)/2,
                 width: Global.PaddleWidth,
                 height: Global.PaddleHeight,
             }
             this.paddle2 = {
                 x: role == "player2"? Global.GameWidth - Global.PaddleWidth - Global.PaddlePadding : Global.PaddlePadding,
-                y: Global.GameHeight,
+                y: Global.GameHeight + (Global.GameHeight - Global.PaddleHeight)/2,
                 width: Global.PaddleWidth,
                 height: Global.PaddleHeight,
             }
@@ -53,7 +56,7 @@ module.exports = class Player {
                 }
             }
         
-            this.dy *= Math.abs(this.dy) > Global.Epsilon? 0.8 : 0
+            this.dy *= Math.abs(this.dy) > Global.Epsilon? 0.75 : 0
         
             if (Math.abs(this.dy) < Global.MaxSpeed) {
                 this.dashing = false
@@ -80,13 +83,11 @@ module.exports = class Player {
     onKeyPress(key) {
         if (key == "Space") {
             if (this.up) {
-                this.dy = -200
+                this.dy = -this.dashPower
                 this.dashing = true
             } else if (this.down) {
-                this.dy = 200
+                this.dy = this.dashPower
                 this.dashing = true
-            } else {
-
             }
         }
     }

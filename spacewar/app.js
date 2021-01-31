@@ -1,155 +1,204 @@
+import Projectile from "./projectile.js"
+import Spaceship from "./spaceship.js"
+import Asteroid from "./asteroid.js"
+import Global from "./global.js"
+import Coroutine from "./coroutine.js"
+
 const canvas = document.querySelector("canvas")
 const context = canvas.getContext("2d")
 
-const Spaceship1 = new Image()
-Spaceship1.src = "spaceship1.png"
-
-const HalfPi = Math.PI / 180
-const Half360 = 180 / Math.PI
 const TwoPi = Math.PI * 2
-const PlayerRadius = 8
 
-const deg2Rad = degrees => HalfPi * degrees
-const rad2Deg = radians => radians * Half360
-const degrees2Points = (x1,y1,x2,y2) => rad2Deg(Math.atan2(y2- y1, x2 - x1))
-const radians2Points = (x1,y1,x2,y2) => Math.atan2(y2- y1, x2 - x1);
+export const Events = {
+    CameraShake: 0,
+    Sound: 1,
+    queue: [],
+    push: function(event) {
+        this.queue.push(event)
+    },
+    execute: function() {
 
+        if (this.queue.length == 0) {
+            return
+        }
 
-const Global = {
-    GameWidth: 900,
-    GameHeight: 450,
-    Epsilon: 0.01,
-    Deg90: deg2Rad(-90),
-    PlayRadius: 450
-}
+        let event = this.queue.shift()
 
-const Player = {
-    x: Global.GameWidth/2,
-    y: Global.GameHeight/2,
-    dx: 0,
-    dy: 0,
-    dr: 0,
-    maxSpeed: .05,
-    halfSpeed: .01,
-    rot: deg2Rad(-90),
-    rotationSpeed: deg2Rad(0.5),
-    rotating: false,
-    accelerating: false
+        if (event.type == this.CameraShake) {
+            let duration = event.duration
+            let intensity = event.intensity
+            View.shake(duration, intensity)
+        }
+
+        if(event.type == this.Sound) {
+            let soundName = event.sound
+            let sound = new Audio()
+            sound.src = "./sound/"+soundName
+            sound.play()
+        }
+    }
 }
 
 const View = {
     x: 0,
     y: 0,
+    shake: function (duration, intensity) {
+		let shakeGenerator = function* (duration, intensity) {
+			const delta = 20
+			let slope = -(1 / duration)
+			let root = (-intensity) * (-duration)
+
+			let dx = []
+			let dy = []
+			
+			let amp = intensity
+			for(let i = 0; i < root; i += (root/delta)) {
+				dx.push(Global.random(-amp, amp))
+				amp = (slope * i) + intensity
+			}
+			amp = intensity;
+			for(let i = 0; i < root; i += (root/delta)) {
+				dy.push(Global.random(-amp, amp))
+				amp = (slope * i) + intensity
+			}
+			
+			for(let i = 0; i < dx.length; i++) {
+                View.x += dx[i]
+                View.y += dy[i]
+				yield
+			}
+		}
+		Coroutine.start(shakeGenerator(duration, intensity))
+    }
 }
 
-const Rocks = []
-const Projectiles = []
+function loadImage(name) {
+    return new Promise(resolve => {
+        const sprite = new Image()
+        sprite.onload = () => {
+            resolve(sprite)
+        }
+        sprite.src = name
+    }) 
+}
+
+let SpaceshipSprite = null
+let ProjectileSprite = null
+let AsteroidSprite = null
+let Player = null
+
+async function loadAsset() {
+    await loadImage("spaceship1.png").then(response => SpaceshipSprite = response)
+    await loadImage("projectile.png").then(response => ProjectileSprite = response)
+    await loadImage("asteroid1.png").then(response => AsteroidSprite = response)
+    init()
+}
+
+loadAsset()
+
+const GameObjects = []
+
+function init() {
+
+    for(let i = 0; i < 25; i++) {
+        let x = Global.random(-Global.PlayRadius, Global.PlayRadius)
+        let y = Global.random(-Global.PlayRadius, Global.PlayRadius)
+        let size = Global.randomInt(1,6)
+        let aster = new Asteroid(x,y,AsteroidSprite,size, 1)
+        GameObjects.push(aster)
+    }
+
+    Player = new Spaceship(0,0,SpaceshipSprite)
+    GameObjects.push(Player)
+
+    requestAnimationFrame(main)
+}
 
 function update() {
 
-    Player.rotating = false
-    Player.accelerating = false
+    if (Player.x - Global.GameWidth/2 > -Global.PlayRadius && Player.x + Global.GameWidth/2 < Global.PlayRadius) {
+        View.x += (Player.x - View.x)/7
+    }
+    
+    if (Player.y - Global.GameHeight/2 > -Global.PlayRadius && Player.y + Global.GameHeight/2 < Global.PlayRadius) {
+        View.y += (Player.y - View.y)/7
+    }
+    
 
-    if (keysHeld["KeyZ"]) {
-        Player.dr -= Player.rotationSpeed
-        Player.rotating = true
-    }
-    if (keysHeld["KeyX"]) {
-        Player.dr += Player.rotationSpeed
-        Player.rotating = true
-    }
-    if (keysHeld["ArrowRight"]) {
-        Player.dx += Math.cos(Player.rot - Global.Deg90) * Player.halfSpeed
-        Player.dy += Math.sin(Player.rot - Global.Deg90) * Player.halfSpeed
-        Player.accelerating = true
-    }
-    if (keysHeld["ArrowLeft"]) {
-        Player.dx += Math.cos(Player.rot + Global.Deg90) * Player.halfSpeed
-        Player.dy += Math.sin(Player.rot + Global.Deg90) * Player.halfSpeed
-        Player.accelerating = true
-    }
-    if (keysHeld["ArrowUp"]) {
-        Player.dx += Math.cos(Player.rot) * Player.maxSpeed
-        Player.dy += Math.sin(Player.rot) * Player.maxSpeed
-        Player.accelerating = true
-    }
-    if (keysHeld["ArrowDown"]) {
-        
-    }
 
-    Player.x += Player.dx
-    Player.y += Player.dy
-    Player.rot += Player.dr
+    GameObjects.forEach(object => {
+        if (object.active) {
 
-    View.x = Player.x
-    View.y = Player.y
+            object.collider.color = "white"
 
-    if (!Player.rotating) {
-        Player.dr *= Math.abs(Player.dr) > Global.Epsilon? 0.98 : 0
-    }
+            object.update()
 
-    if (!Player.accelerating) {
-        Player.dx *= Math.abs(Player.dx) > Global.Epsilon? 0.98 : 0
-        Player.dy *= Math.abs(Player.dy) > Global.Epsilon? 0.98 : 0
-    }
+            for (let i in GameObjects) {
+                
+                let other = GameObjects[i]
 
-    if (Math.pow(Player.x, 2) + Math.pow(Player.y, 2) > Math.pow(Global.PlayRadius, 2)) {
-        Player.x = 0
-        Player.y = 0
-    }
+                if (other.active && object.id != other.id) {
+                    if (object.collider.collides(other.collider)) {
+                        object.onCollision(other)
+                        object.collider.color = "green"
+                    }
+                }
+            }
 
-    Projectiles.forEach(projectile => {
-        projectile.x += projectile.dx
-        projectile.y += projectile.dy
+            if (!(object instanceof Projectile)) {
+                if (object.x - object.radius < -Global.PlayRadius || object.x + object.radius > Global.PlayRadius) {
+                    object.dx *= -1
+                }
 
-        if (Math.pow(projectile.x, 2) + Math.pow(projectile.y, 2) > Math.pow(Global.PlayRadius, 2)) {
-            projectile.active = false
+                if (object.y - object.radius < -Global.PlayRadius || object.y + object.radius > Global.PlayRadius) {
+                    object.dy *= -1
+                }
+            }
         }
     })
 
-
-
+    Player.onKeyHeld(keysHeld)
 }
 
 function draw() {
 
-    context.setTransform(1,0,0,1,Player.x - View.x + Global.GameWidth/2,Player.y - View.y + Global.GameHeight/2)
-    context.rotate(Player.rot)
-    context.drawImage(Spaceship1,-8,-8)
-    context.strokeStyle = "green"
-    context.beginPath()
-    context.arc(0, 0, PlayerRadius, 0, TwoPi)
-    context.stroke()
+    GameObjects.forEach(object => {
 
-    context.setTransform(1,0,0,1, -View.x, -View.y )
-    context.beginPath()
-    context.arc(Global.GameWidth/2, Global.GameHeight/2, Global.PlayRadius, 0, TwoPi)
-    context.stroke()
-
-
-    Projectiles.forEach(projectile => {
-        if (projectile.active) {
-            context.setTransform(1,0,0,1, projectile.x-View.x + Global.GameWidth/2, projectile.y-View.y + Global.GameHeight/2)
-            context.fillStyle = "white"
+        if(object.active) {
+            context.setTransform(1,0,0,1,object.x - View.x + Global.GameWidth/2,object.y - View.y + Global.GameHeight/2)
+            context.rotate(object.rot)
+            context.drawImage(object.sprite,-(object.sprite.width * object.size)/2,-(object.sprite.height * object.size)/2,object.sprite.width * object.size,object.sprite.height * object.size)
+        
+            /*
             context.beginPath()
-            context.arc(0, 0, 2, 0, TwoPi)
-            context.fill()
+            context.strokeStyle = object.collider.color
+            context.arc(0,0,object.collider.radius,0,TwoPi)
+            context.stroke()
+            */
         }
+
     })
+    
 }
 
 function main(time) {
     context.resetTransform()
     context.clearRect(0,0,context.canvas.width,context.canvas.height)
+
+    Events.execute()
+    Coroutine.step()
     update()
     draw()
+    
     requestAnimationFrame(main)
 }
-requestAnimationFrame(main)
 
 // input handlers
 function onMouseClick(x, y) {
-
+    let pro = new Audio()
+    pro.src = "./sound/propulsion.wav"
+    pro.loop = true
+    pro.play()
 }
 
 function onMouseMove(x, y) {
@@ -158,13 +207,8 @@ function onMouseMove(x, y) {
 
 function onKeyPress(key) {
     if (key == "Space") {
-        Projectiles.push({
-            x: Player.x,
-            y: Player.y,
-            dx: Math.cos(Player.rot) * 20,
-            dy: Math.sin(Player.rot) * 20,
-            active: true
-        })
+        Events.push({type: Events.Sound, sound: "laser.wav"})
+        GameObjects.push(new Projectile(Player, ProjectileSprite))
     }
 }
 

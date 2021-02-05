@@ -3,15 +3,81 @@ import Spaceship from "./spaceship.js"
 import Asteroid from "./asteroid.js"
 import Global from "./global.js"
 import Coroutine from "./coroutine.js"
+import GameObject from "./gameobject.js"
 
 const canvas = document.querySelector("canvas")
 const context = canvas.getContext("2d")
 
+const scoreDisplay = document.getElementById("score-display")
+const score = document.getElementById("score")
+const gameOver = document.getElementById("game-over")
+
 const TwoPi = Math.PI * 2
 
+const Game = {
+    tick: 0,
+    asteroids: [],
+    createAsteroid: function () {
+        
+        let octant = Global.randomInt(0,3)
+        let x = 0
+        let y = 0
+        let dx = 0
+        let dy = 0
+        let size = Global.randomInt(1,5)
+
+        switch(octant) {
+
+            case 0: // top
+                x = Global.random(-Global.PlayRadius, Global.PlayRadius)
+                y = -Global.PlayRadius - 100
+                dx = Global.random(-5,5)
+                dy = Global.random(2,4)
+            break;
+
+            case 1: //right
+                x = Global.PlayRadius + 100
+                y = Global.random(-Global.PlayRadius, Global.PlayRadius)
+                dx = Global.random(-4,2)
+                dy = Global.random(-5,5)
+            break;
+
+            case 2: // bottom
+                x = Global.random(-Global.PlayRadius, Global.PlayRadius)
+                y = Global.PlayRadius + 100
+                dx = Global.random(-5,5)
+                dy = Global.random(-4,-2)
+            break;
+
+            case 3: //left
+                x = -Global.PlayRadius - 100
+                y = Global.random(-Global.PlayRadius, Global.PlayRadius)
+                dx = Global.random(2,4)
+                dy = Global.random(-5,5)
+            break;
+        }
+
+        this.asteroids.push(Asteroid.new(x,y,AsteroidSprite,dx,dy,size))
+    },
+
+    objectOutOfBounds: function(object) {
+        return object.x < (-Global.PlayRadius - 100) || object.x > (Global.PlayRadius + 100) || object.y > (Global.PlayRadius + 100) || object.y < (-Global.PlayRadius - 100)
+    },
+
+    start(initialStart) {
+        GameObject.List = []
+        Projectile.Instances = []
+        Asteroid.Instances = []
+        Player = new Spaceship(0,0,SpaceshipSprite)
+
+        initialStart? requestAnimationFrame(main) : null
+    }
+}
+    
 export const Events = {
     CameraShake: 0,
     Sound: 1,
+    GameOver: 2,
     queue: [],
     push: function(event) {
         this.queue.push(event)
@@ -35,6 +101,17 @@ export const Events = {
             let sound = new Audio()
             sound.src = "./sound/"+soundName
             sound.play()
+        }
+
+        if(event.type == this.GameOver) {
+            scoreDisplay.style.display = "none"
+            gameOver.style.display = "block"
+            gameOver.querySelector("#final-score").innerText = Player.score
+            gameOver.querySelector("button").onclick = () => {
+                scoreDisplay.style.display = "block"
+                gameOver.style.display = "none"
+                Game.start(false)
+            }
         }
     }
 }
@@ -88,31 +165,13 @@ let AsteroidSprite = null
 let Player = null
 
 async function loadAsset() {
-    await loadImage("spaceship1.png").then(response => SpaceshipSprite = response)
-    await loadImage("projectile.png").then(response => ProjectileSprite = response)
-    await loadImage("asteroid1.png").then(response => AsteroidSprite = response)
-    init()
+    await loadImage("./sprites/spaceship1.png").then(response => SpaceshipSprite = response)
+    await loadImage("./sprites/projectile.png").then(response => ProjectileSprite = response)
+    await loadImage("./sprites/asteroid1.png").then(response => AsteroidSprite = response)
+    Game.start(true)
 }
 
 loadAsset()
-
-const GameObjects = []
-
-function init() {
-
-    for(let i = 0; i < 25; i++) {
-        let x = Global.random(-Global.PlayRadius, Global.PlayRadius)
-        let y = Global.random(-Global.PlayRadius, Global.PlayRadius)
-        let size = Global.randomInt(1,6)
-        let aster = new Asteroid(x,y,AsteroidSprite,size, 1)
-        GameObjects.push(aster)
-    }
-
-    Player = new Spaceship(0,0,SpaceshipSprite)
-    GameObjects.push(Player)
-
-    requestAnimationFrame(main)
-}
 
 function update() {
 
@@ -123,19 +182,19 @@ function update() {
     if (Player.y - Global.GameHeight/2 > -Global.PlayRadius && Player.y + Global.GameHeight/2 < Global.PlayRadius) {
         View.y += (Player.y - View.y)/7
     }
-    
 
-
-    GameObjects.forEach(object => {
+    GameObject.List.forEach(object => {
         if (object.active) {
 
             object.collider.color = "white"
 
+            object.active = !Game.objectOutOfBounds(object)
+
             object.update()
 
-            for (let i in GameObjects) {
+            for (let i in GameObject.List) {
                 
-                let other = GameObjects[i]
+                let other = GameObject.List[i]
 
                 if (other.active && object.id != other.id) {
                     if (object.collider.collides(other.collider)) {
@@ -145,7 +204,8 @@ function update() {
                 }
             }
 
-            if (!(object instanceof Projectile)) {
+            if (object instanceof Spaceship) {
+
                 if (object.x - object.radius < -Global.PlayRadius || object.x + object.radius > Global.PlayRadius) {
                     object.dx *= -1
                 }
@@ -158,11 +218,20 @@ function update() {
     })
 
     Player.onKeyHeld(keysHeld)
+
+    if (Game.tick % 25 == 0) {
+        if (Math.random() < .60) {
+            Game.createAsteroid()
+        }
+    }
+    Game.tick++
+
+    score.innerText = Player.score
 }
 
 function draw() {
 
-    GameObjects.forEach(object => {
+    GameObject.List.forEach(object => {
 
         if(object.active) {
             context.setTransform(1,0,0,1,object.x - View.x + Global.GameWidth/2,object.y - View.y + Global.GameHeight/2)
@@ -175,6 +244,7 @@ function draw() {
             context.arc(0,0,object.collider.radius,0,TwoPi)
             context.stroke()
             */
+            
         }
 
     })
@@ -195,10 +265,7 @@ function main(time) {
 
 // input handlers
 function onMouseClick(x, y) {
-    let pro = new Audio()
-    pro.src = "./sound/propulsion.wav"
-    pro.loop = true
-    pro.play()
+
 }
 
 function onMouseMove(x, y) {
@@ -207,8 +274,7 @@ function onMouseMove(x, y) {
 
 function onKeyPress(key) {
     if (key == "Space") {
-        Events.push({type: Events.Sound, sound: "laser.wav"})
-        GameObjects.push(new Projectile(Player, ProjectileSprite))
+        Player.shoot(ProjectileSprite)
     }
 }
 

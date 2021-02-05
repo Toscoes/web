@@ -13,6 +13,7 @@ export default class Spaceship extends GameObject {
         this.rotating = false
         this.accelerating = false
         this.hitpoints = 3
+        this.score = 0
     }
 
     update() {
@@ -65,14 +66,23 @@ export default class Spaceship extends GameObject {
 
     }
 
+    shoot(sprite) {
+        if(this.active) {
+            Events.push({type: Events.Sound, sound: "laser.wav"})
+            Projectile.new(this, sprite)
+        }
+    }
+
+    increaseScore() {
+        this.score++
+    }
+
     onCollision(other) {
         if (other instanceof Asteroid) {
+            this.active = false
             Events.push({
-                type: Events.CameraShake,
-                duration: 40,
-                intensity: 10
+                type: Events.GameOver
             })
-
         }
     }
 }

@@ -1,78 +1,66 @@
-let toggleBounds = false;
-let toggleRects = false;
-
-const canvas = document.getElementById("canvas");
+const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
 
-const displayWidth = 768;
-const displayHeight = 768;
+const World = {
+    width: 1200,
+    height: 900
+}
 
-const unitWidth = 768;
-const unitHeight = 768;
+ctx.canvas.width = World.width;
+ctx.canvas.height = World.height;
 
-canvas.style.width = displayWidth;
-canvas.style.height = displayHeight;
+const numberOfPoints = 1000;
 
-ctx.canvas.width = unitWidth;
-ctx.canvas.height = unitHeight;
+const Points = [];
 
-const numberOfPoints = 500;
-
-let points = [];
-let quadTree = new QuadTree(
-    // keep the bounds square
-    new Bounds(0,0,unitWidth, unitHeight),
-    "root"
-);
+const random = (min, max) => (Math.random() * (max - min + 1) + min)
 
 function init() {
     for(let i = 0; i < numberOfPoints; i++) {
-
         let point = new Point(
             Math.random() * ctx.canvas.width,
-            Math.random() * ctx.canvas.height
+            Math.random() * ctx.canvas.height,
+            random(-2,2),
+            random(-2,2)
         );
-
-        points[i] = point;
-
-        quadTree.insert(point);
+        Points[i] = point
     }
 }
 
 function update() {
-    resize();
-    reset();
+    ctx.clearRect(0,0,ctx.canvas.width, ctx.canvas.height);
 
-    for(let i = 0; i < numberOfPoints; i++) {
-        points[i].draw();
-    }
+    let quadTree = new QuadTree(
+        // keep the bounds square
+        new Bounds(0,0,World.width, World.height),
+        "root"
+    );
+
+    Points.forEach(point => {
+        if (point.x + point.dx < 0 || point.x + point.dx > World.width) {
+            point.dx *= -1
+        }
+        if (point.y + point.dy < 0 || point.y + point.dy > World.height) {
+            point.dy *= -1
+        }
+        point.update()
+        point.draw()
+
+        quadTree.insert(point)
+    })
 
     quadTree.draw();
 
-    requestAnimationFrame(update);
+    requestAnimationFrame(update)
 }
 
+init()
+requestAnimationFrame(update)
+
+window.addEventListener("resize", resize)
 function resize() {
-    canvas.style.width = displayWidth;
-    canvas.style.height = displayHeight;
-    
-    ctx.canvas.width = unitWidth;
-    ctx.canvas.height = unitHeight;
+    canvas.width = canvas.clientWidth * window.devicePixelRatio
+    canvas.height = canvas.clientHeight * window.devicePixelRatio
+    ctx.imageSmoothingEnabled = false
 }
-
-function reset() {
-    ctx.setTransform(1,0,0,1,0,0);
-    ctx.clearRect(0,0,ctx.canvas.width, ctx.canvas.height);
-}
-
-init();
-update();
-
-document.addEventListener("keydown", function(event) {
-    if(event.keyCode == 82) {
-        toggleRects = !toggleRects;
-    }
-    if(event.keyCode == 66) {
-        toggleBounds = !toggleBounds;
-    }
-});
+resize()

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A*</title>
+
+    <script src="draggable.js" type="module" defer></script>
+    <script src="app.js" type="module" defer></script>
+
+    <style>
+
+        .no-highlight {
+            -webkit-touch-callout: none; /* iOS Safari */
+            -webkit-user-select: none; /* Safari */
+            -khtml-user-select: none; /* Konqueror HTML */
+            -moz-user-select: none; /* Old versions of Firefox */
+            user-select: none;
+        }
+
+        .node {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #5cabff;
+            text-align: center;
+            vertical-align: middle;
+            line-height: 40px; /* The same as your div height */
+            color: white;
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        .context-menu {
+            position: absolute;
+            -webkit-box-shadow: 5px 5px 5px 0px rgba(0,0,0,0.7); 
+            box-shadow: 5px 5px 5px 0px rgba(0,0,0,0.7);
+            background-color: #f0f0f0;
+            display: none;
+            z-index: 9999;
+        }
+
+        .context-menu > div {
+            padding: 2px 24px 2px 24px;
+        }
+
+        .context-menu > div:hover {
+            background-color: #2196F3
+        }
+
+        svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            background-color: #1f1f1f;
+        }
+    </style>
+</head>
+<body>
+    <svg></svg>
+
+    <!-- <line x1="50" y1="50" x2="350" y2="350" stroke="black"/> -->
+
+    <div id="main" class="context-menu no-highlight">
+        <div id="add-node">Add node</div>
+    </div>
+
+    <div id="node" class="context-menu no-highlight">
+        <div id="connect">Connect</div>
+        <div id="delete">Delete</div>
+    </div>
+</body>
+</html>

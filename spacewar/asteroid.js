@@ -2,14 +2,42 @@ import GameObject from "./gameobject.js"
 import Projectile from "./projectile.js"
 import Global from "./global.js"
 
+const calculateHitPoints = size => ((size - 1) * 2) + 1
+const limDr = 10
+
 export default class Asteroid extends GameObject {
-    constructor(x,y,sprite,size,hitpoints) {
+
+    constructor(x,y,sprite,dx,dy,size) {
         super(x,y,sprite,size)
-        this.dx = (Math.random() * 2) - 1
-        this.dy = (Math.random() * 2) - 1
-        this.dr = Global.deg2Rad((Math.random() * 4) - 2)
+        this.dx = dx
+        this.dy = dy
+        this.dr = Global.deg2Rad(Global.random(-limDr, limDr))
         this.size = size
-        this.hitpoints = hitpoints
+        this.hitpoints = calculateHitPoints(size)
+
+        Asteroid.Instances.push(this)
+    }
+
+    static Instances = []
+
+    static new(x,y,sprite,dx,dy,size) {
+        let asteroid = GameObject.getInactive(Asteroid.Instances)
+        if (asteroid) {
+            return asteroid.revive(x,y,sprite,dx,dy,size)
+        } else {
+            return new Asteroid(x,y,sprite,dx,dy,size)
+        }
+    }
+
+    revive(x,y,sprite,dx,dy,size) {
+        super.revive(x,y,sprite,size)
+
+        this.dx = dx
+        this.dy = dy
+        this.dr = Global.deg2Rad(Global.random(-limDr, limDr))
+        this.hitpoints = calculateHitPoints(size)
+        
+        return this
     }
 
     update() {
@@ -19,7 +47,7 @@ export default class Asteroid extends GameObject {
 
         this.collider.translate(this.dx, this.dy)
 
-        if (this.hitpoints == 0) {
+        if (this.hitpoints <= 0) {
             this.active = false
         }
     }

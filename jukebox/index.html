@@ -3,24 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Separating Axis Theorem</title>
+    <title>Audio Visualizer</title>
+    <script src="app.js" defer></script>
     <style>
         canvas {
             position: absolute;
-            left: 0;
             top: 0;
+            left: 0;
             width: 100vw;
             height: 100vh;
-            background-color: #1f1f1f;
-            image-rendering: -moz-crisp-edges;
-            image-rendering: -webkit-crisp-edges;
-            image-rendering: pixelated;
-            image-rendering: crisp-edges;
+            background-color: #1F1F1F;
+            z-index: -1;
         }
     </style>
-    <script src="app.js" defer></script>
 </head>
 <body>
+    <audio id="source" src=""></audio>
+    <button id="play">Play</button>
+    <button id="pause">Restart</button>
     <canvas></canvas>
 </body>
 </html>

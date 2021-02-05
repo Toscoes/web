@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spacewar</title>
+    <title>Asteroids</title>
     <style>
         canvas {
             position: absolute;
@@ -16,6 +16,21 @@
             image-rendering: -webkit-crisp-edges;
             image-rendering: pixelated;
             image-rendering: crisp-edges;
+            z-index: -1
+        }
+
+        div {
+            color: white;
+            font-size: 24px;
+        }
+
+        #game-over {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            display: none;
         }
     </style>
     <script src="coroutine.js" type="module" defer></script>
@@ -28,6 +43,14 @@
     <script src="app.js" type="module" defer></script>
 </head>
 <body>
+    <div id="score-display">Asteroids Destroyed: <span id="score">0</span></div>
     <canvas></canvas>
+    <div id="game-over">
+        Game Over!
+        <br>
+        Score: <span id="final-score"></span>
+        <br>
+        <button>Play Again</button>
+    </div>
 </body>
 </html>

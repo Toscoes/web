@@ -1,16 +1,24 @@
-const QuadTreeCapacity = 1;
+const QuadTreeCapacity = 2;
+const TwoPi = Math.PI * 2
 
 class Point {
-    constructor(x,y) {
-        this.x = x;
-        this.y = y;
+    constructor(x,y,dx,dy) {
+        this.x = x
+        this.y = y
+        this.dx = dx
+        this.dy = dy
+    }
+
+    update() {
+        this.x += this.dx
+        this.y += this.dy
     }
 
     draw() {
-        ctx.beginPath();
-        ctx.fillStyle = "#39ff14";
-        ctx.arc(this.x, this.y, 2, 0, Math.PI * 2);
-        ctx.fill();
+        ctx.beginPath()
+        ctx.fillStyle = "#39ff14"
+        ctx.arc(this.x, this.y, 2, 0, TwoPi)
+        ctx.fill()
     }
 }
 
@@ -38,37 +46,29 @@ class QuadTree {
         if(this.points.length < QuadTreeCapacity && !this.hasChildren) {
             this.points.push(point);
         } else {
-
             if(!this.hasChildren) {
                 this.hasChildren = true;
                 this.divide();
             }
-
             if (point.x < this.bounds.x + this.bounds.w/2 &&
                 point.y < this.bounds.y + this.bounds.h/2) {
-
                 this.topLeft.insert(point);
-                
+            
             } else if (point.x >= this.bounds.x + this.bounds.w/2 &&
                 point.y < this.bounds.y + this.bounds.h/2) {
-
                 this.topRight.insert(point);
-
             } else if (point.x < this.bounds.x + this.bounds.w/2 &&
                 point.y >= this.bounds.y + this.bounds.h/2) {
-
                 this.bottomLeft.insert(point);
-
             } else {
-
                 this.bottomRight.insert(point);
-
             }
-
         }
     }
 
     divide() {
+
+        // divide into subtrees
         let topLeftBounds = new Bounds(this.bounds.x, this.bounds.y, this.bounds.w/2, this.bounds.h/2);
         this.topLeft = new QuadTree(topLeftBounds, this.name + "-TL");
 
@@ -86,13 +86,13 @@ class QuadTree {
             this.insert(this.points[i]);
         }
 
+        // relinquish reference to points
         this.points = [];
     }
 
     merge() {
         if(!this.hasChildren) {
-            //return this.points.length == QuadTreeCapacity;
-            return (this.bounds.w == 1 && this.bounds.h == 1) && this.points.length == 1; // unit child
+            return this.points.length == QuadTreeCapacity;
         } else {
 
             let topLeftMerged = this.topLeft.merge();
@@ -102,6 +102,7 @@ class QuadTree {
 
             if (topLeftMerged && topRightMerged && bottomLeftMerged && bottomRightMerged) {
 
+                // reclaim points from subsections
                 this.points = this.points.concat(this.topLeft.points);
                 this.topLeft = 0;
                 
@@ -127,6 +128,10 @@ class QuadTree {
             return this.points.length;
         }
         return this.topLeft.sum() + this.topRight.sum() + this.bottomLeft.sum() + this.bottomRight.sum();
+    }
+
+    regrow(points) {
+
     }
 
     draw() {

@@ -10,4 +10,4 @@ exports.PaddlePadding = 100
 exports.Epsilon = 0.01
 exports.LoadTime = 150
 exports.WinnerDisplayTime = 100
-exports.GamePoint = 1
+exports.GamePoint = 6

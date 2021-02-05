@@ -2,12 +2,14 @@
     <head>
         <title>Quadtree</title>
         <style>
-            #canvas {
-                background-color: #000;
+            canvas {
+                background-color: #1f1f1f;
                 position: absolute;
                 transform: translate(-50%, -50%);
                 top: 50%;
                 left: 50%;
+                width: 100vw;
+                height: 100vh;
                 image-rendering: -moz-crisp-edges;
                 image-rendering: -webkit-crisp-edges;
                 image-rendering: pixelated;
@@ -16,7 +18,7 @@
         </style>
     </head>
     <body>
-        <canvas id="canvas"></canvas>
+        <canvas></canvas>
     </body>
     <script ref="text/javascript" src="quadtree.js"></script>
     <script ref="text/javascript" src="index.js"></script>
